@@ -21,7 +21,7 @@ public class Main {
                 String[] data = m.split(" ");
                 String to = data[1];
                 int price = (int) (Double.parseDouble(data[2]) * xrate);
-                return "to " + to + " - price int PLN:  " + price;
+                return "to " + to + " - price in PLN:  " + price;
             });
   }
 
