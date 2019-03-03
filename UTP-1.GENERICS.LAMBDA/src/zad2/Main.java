@@ -7,21 +7,22 @@
 package zad2;
 
 
-import java.util.*;
+import zad1.ListCreator;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class Main {
 
   static List<String> getPricesInPLN(List<String> destinations, double xrate) {
     return ListCreator.collectFrom(destinations)
-                       .when(  /*<-- lambda wyrażenie
-                                *  selekcja wylotów z Warszawy (zaczynających się od WAW)
-                                */
-                        )
-                       .mapEvery( /*<-- lambda wyrażenie
-                                   *  wyliczenie ceny przelotu w PLN
-                                   *  i stworzenie wynikowego napisu
-                                   */
-                        );
+            .when(s -> s.startsWith("WAW") && s.split(" ").length == 3)
+            .mapEvery(m -> {
+                String[] data = m.split(" ");
+                String to = data[1];
+                int price = (int) (Double.parseDouble(data[2]) * xrate);
+                return "to " + to + " - price int PLN:  " + price;
+            });
   }
 
   public static void main(String[] args) {

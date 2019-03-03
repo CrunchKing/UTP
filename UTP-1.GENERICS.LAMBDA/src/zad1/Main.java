@@ -6,9 +6,8 @@
 
 package zad1;
 
-
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static zad1.ListCreator.collectFrom;
 

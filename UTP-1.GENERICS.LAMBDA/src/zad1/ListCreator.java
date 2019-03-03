@@ -8,35 +8,30 @@ package zad1;
 
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-public class ListCreator <T, F> { // Uwaga: klasa musi być sparametrtyzowana
+public class ListCreator<T> { // Uwaga: klasa musi być sparametrtyzowana
 
-    private List<T> list;
+    private ArrayList<T> list;
 
-    public List<T> getList() {
-        return list;
-    }
-
-    public ListCreator (List<T> list){
+    private ListCreator(ArrayList<T> list) {
         this.list = list;
     }
 
-    public static <T, F> ListCreator<T, F> collectFrom(List<T> list) {
-        return new ListCreator<>(list);
+    public static <T> ListCreator<T> collectFrom(List<T> list) {
+        return new ListCreator<>(new ArrayList<>(list));
     }
 
-    ListCreator<T, F> when(Selector<T> selector) {
-        list.removeIf(t -> !selector.select(t));
+    public ListCreator<T> when(Selector<T> selector) {
+        list.removeIf(value -> !selector.select(value));
+
         return this;
     }
 
-    List<F> mapEvery(Mapper<T, F> mapper) {
+    public <F> List<F> mapEvery(Mapper<T, F> mapper) {
         List<F> mapped = new ArrayList<>();
-
         list.forEach(t -> mapped.add(mapper.map(t)));
 
         return mapped;
     }
-}  
+}
