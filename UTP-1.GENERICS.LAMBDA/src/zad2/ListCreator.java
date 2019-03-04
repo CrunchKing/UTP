@@ -2,13 +2,16 @@
  * @author Wyrzykowski Tadeusz S17315
  */
 
-package zad1;
+package zad2;
 
+
+import zad1.Mapper;
+import zad1.Selector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListCreator<T> { // Uwaga: klasa musi być sparametrtyzowana
+public class ListCreator<T> {
 
     private ArrayList<T> list;
 
