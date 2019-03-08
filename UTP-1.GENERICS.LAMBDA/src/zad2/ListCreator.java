@@ -9,6 +9,7 @@ import zad1.Mapper;
 import zad1.Selector;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListCreator<T> {
@@ -24,14 +25,23 @@ public class ListCreator<T> {
     }
 
     public ListCreator<T> when(Selector<T> selector) {
-        list.removeIf(value -> !selector.select(value));
+        Iterator<T> iterator = list.iterator();
+
+        while (iterator.hasNext()) {
+            if (!selector.select(iterator.next())) {
+                iterator.remove();
+            }
+        }
 
         return this;
     }
 
     public <F> List<F> mapEvery(Mapper<T, F> mapper) {
         List<F> mapped = new ArrayList<>();
-        list.forEach(t -> mapped.add(mapper.map(t)));
+
+        for (T t : list) {
+            mapped.add(mapper.map(t));
+        }
 
         return mapped;
     }
