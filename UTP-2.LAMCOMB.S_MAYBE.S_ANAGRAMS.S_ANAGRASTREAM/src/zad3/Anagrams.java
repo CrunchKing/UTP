@@ -7,7 +7,10 @@
 package zad3;
 
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -16,7 +19,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
-class Anagrams {
+public class Anagrams {
 
     private List<String> words = new ArrayList<>();
     private HashMap<String, List<String>> anagrams = new HashMap<>();
@@ -28,11 +31,29 @@ class Anagrams {
         return new String(output);
     }
 
-    Anagrams(String fileName) {
-        try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
-            stream.forEach(l -> words.addAll(Arrays.asList(l.split("\\s+"))));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public Anagrams(String source) {
+        if (source.toLowerCase().startsWith("http://")) {
+            try {
+                URL oracle = new URL(source);
+                BufferedReader in = new BufferedReader(
+                        new InputStreamReader(oracle.openStream()));
+
+                String inputLine;
+                while ((inputLine = in.readLine()) != null){
+                    words.add(inputLine);
+                }
+
+                in.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+
+            try (Stream<String> stream = Files.lines(Paths.get(source))) {
+                stream.forEach(l -> words.addAll(Arrays.asList(l.split("\\s+"))));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         for (String word : words) {
@@ -59,7 +80,7 @@ class Anagrams {
         return value + ": [" + anagramsFlat + "]";
     }
 
-    Iterable<List<String>> getSortedByAnQty() {
+    public Iterable<List<String>> getSortedByAnQty() {
         return anagrams.entrySet().stream()
                 .sorted((o1, o2) -> {
                     int o1s = o1.getValue().size();
