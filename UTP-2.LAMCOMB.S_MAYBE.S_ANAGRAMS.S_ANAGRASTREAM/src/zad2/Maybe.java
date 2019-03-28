@@ -41,9 +41,11 @@ public class Maybe <T> {
     }
 
     public Maybe<T> filter (Predicate<T> predicate) {
-        if (predicate.test(this.value) || this.value == null)
+        if (this.value == null) {
             return this;
-        return Maybe.of(null);
+        } else if (predicate.test(this.value)){
+            return this;
+        } else return Maybe.of(null);
     }
 
     @Override
