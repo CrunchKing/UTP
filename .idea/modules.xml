@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/UTP-1.GENERICS.LAMBDA/UTP1_XX_SXXXXX.iml" filepath="$PROJECT_DIR$/UTP-1.GENERICS.LAMBDA/UTP1_XX_SXXXXX.iml" />
       <module fileurl="file://$PROJECT_DIR$/UTP-2.LAMCOMB.S_MAYBE.S_ANAGRAMS.S_ANAGRASTREAM/UTP2_XX_SXXXXX.iml" filepath="$PROJECT_DIR$/UTP-2.LAMCOMB.S_MAYBE.S_ANAGRAMS.S_ANAGRASTREAM/UTP2_XX_SXXXXX.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UTP-3.XLIST.CUSTOMERS.PROGRAMMERS/UTP3_XX_SXXXXX.iml" filepath="$PROJECT_DIR$/UTP-3.XLIST.CUSTOMERS.PROGRAMMERS/UTP3_XX_SXXXXX.iml" />
     </modules>
   </component>
 </project>
