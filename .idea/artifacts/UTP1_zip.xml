@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact name="UTP1 zip">
+  <artifact build-on-make="true" name="UTP1 zip">
     <output-path>$PROJECT_DIR$/out/artifacts/UTP1_zip</output-path>
     <root id="root">
       <element id="archive" name="UTP1_WT_S17315.zip">
