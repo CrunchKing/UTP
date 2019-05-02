@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 public class Futil {
 
     private static Charset DEST_FILE_ENCODING = StandardCharsets.UTF_8;
+    private static Charset SRC_FILE_ENCODING = Charset.forName("Cp1250");
 
     public static void processDir(String dirName, String resultFileName) {
         File resultFile = new File(resultFileName);
@@ -17,7 +18,7 @@ public class Futil {
                 new OutputStreamWriter(new FileOutputStream(new File(resultFileName)), DEST_FILE_ENCODING))) {
             Files.walk(Paths.get(dirName)).filter(Files::isRegularFile).forEach(path -> {
                 try {
-                    Files.lines(path)
+                    Files.lines(path, SRC_FILE_ENCODING)
                             .forEach(line -> {
                                 try {
                                     out.write(line + "\n");
