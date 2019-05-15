@@ -1,8 +1,10 @@
 package zad1.operation;
 
+import java.math.BigDecimal;
+
 public class AddOperation implements Operation {
     @Override
-    public double operation(double a, double b) {
-        return a + b;
+    public BigDecimal operation(BigDecimal a, BigDecimal b) {
+        return a.add(b);
     }
 }
