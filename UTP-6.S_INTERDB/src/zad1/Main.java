@@ -7,9 +7,8 @@
 package zad1;
 
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 
@@ -22,8 +21,8 @@ public class Main {
       for (String od : odlist) System.out.println(od);
     }
     // --- część bazodanowa
-    String url = "jdbc:sqlite::memory";
-    Database db = new Database(url, travelData);
+    String url = "jdbc:sqlite::memory";/*<-- tu należy wpisać URL bazy danych */
+            Database db = new Database(url, travelData);
     db.create();
     db.showGui();
   }

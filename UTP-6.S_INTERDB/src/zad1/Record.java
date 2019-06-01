@@ -1,17 +1,18 @@
 package zad1;
 
+import java.util.Date;
 import java.util.Locale;
 
-class Record {
+public class Record {
     private Locale countryCode;
     private String countryName;
-    private String dateFrom; //YYYY-MM-DD
-    private String dateTo; //YYYY-MM-DD
+    private Date dateFrom; //YYYY-MM-DD
+    private Date dateTo; //YYYY-MM-DD
     private String location;
-    private String price;
+    private Double price;
     private String currency;
 
-    Record(Locale countryCode, String countryName, String dateFrom, String dateTo, String location, String price, String currency) {
+    Record(Locale countryCode, String countryName, Date dateFrom, Date dateTo, String location, Double price, String currency) {
         this.countryCode = countryCode;
         this.countryName = countryName;
         this.dateFrom = dateFrom;
@@ -29,11 +30,11 @@ class Record {
         return countryName;
     }
 
-    String getDateFrom() {
+    Date getDateFrom() {
         return dateFrom;
     }
 
-    String getDateTo() {
+    Date getDateTo() {
         return dateTo;
     }
 
@@ -41,7 +42,7 @@ class Record {
         return location;
     }
 
-    String getPrice() {
+    Double getPrice() {
         return price;
     }
 
@@ -49,4 +50,7 @@ class Record {
         return currency;
     }
 
+    Object[] toArray() {
+        return new Object[]{countryCode, countryName, dateFrom, dateTo, location, price, currency};
+    }
 }

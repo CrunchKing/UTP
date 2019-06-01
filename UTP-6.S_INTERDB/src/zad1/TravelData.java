@@ -3,18 +3,27 @@ package zad1;
 import sun.util.locale.LocaleUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.rmi.registry.LocateRegistry;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TravelData {
+
+    private Properties dictionary;
 
     private List<Record> data;
 
     public TravelData(File dataDir) {
         data = new ArrayList<>();
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Arrays.stream(Objects.requireNonNull(dataDir.listFiles())).forEach(file -> {
             try {
@@ -23,20 +32,36 @@ public class TravelData {
 
                     int i = 0;
 
-                    Record record = new Record(
-                            Locale.forLanguageTag(lineData[i++].replace("_", "-")),
-                            lineData[i++],
-                            lineData[i++],
-                            lineData[i++],
-                            lineData[i++],
-                            lineData[i++],
-                            lineData[i]
-                    );
+                    Record record;
 
-                    data.add(record);
+                    Locale locale = Locale.forLanguageTag(lineData[i++].replace("_", "-"));
+                    NumberFormat numberFormat = NumberFormat.getInstance(locale);
+
+                    try {
+                        record = new Record(
+                                locale,
+                                lineData[i++],
+                                simpleDateFormat.parse(lineData[i++]),
+                                simpleDateFormat.parse(lineData[i++]),
+                                lineData[i++],
+                                numberFormat.parse(lineData[i++]).doubleValue(),
+                                lineData[i]
+                        );
+
+                        data.add(record);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 });
             } catch (IOException e) {
                 e.printStackTrace();
+            }
+
+            try (InputStream input = new FileInputStream("dictionary.properties")) {
+                dictionary = new Properties();
+                dictionary.load(input);
+            } catch (IOException ex) {
+                ex.printStackTrace();
             }
         });
     }
@@ -44,16 +69,19 @@ public class TravelData {
     List<String> getOffersDescriptionsList(String loc, String dateFormat) {
         List<String> descList = new ArrayList<>();
 
+        Locale destLocale = Locale.forLanguageTag(loc.replace("_", "-"));
+        NumberFormat numberFormat = NumberFormat.getInstance(destLocale);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+
         data.forEach(d -> {
             StringBuilder sb = new StringBuilder();
 
-            String country = translateCountry(d.getCountryCode(),
-                    Locale.forLanguageTag(loc.replace("_", "-")), d.getCountryName());
+            String country = translateCountry(d.getCountryCode(), destLocale, d.getCountryName());
             sb.append(country).append(" ");
-            sb.append(d.getDateFrom()).append(" ");
-            sb.append(d.getDateTo()).append(" ");
-            sb.append(d.getLocation()).append(" ");
-            sb.append(d.getPrice()).append(" ");
+            sb.append(simpleDateFormat.format(d.getDateFrom())).append(" ");
+            sb.append(simpleDateFormat.format(d.getDateTo())).append(" ");
+            sb.append(translateWord(d.getCountryCode(), destLocale, d.getLocation())).append(" ");
+            sb.append(numberFormat.format(d.getPrice())).append(" ");
             sb.append(d.getCurrency());
 
             descList.add(sb.toString());
@@ -70,6 +98,10 @@ public class TravelData {
         }
 
         return null;
+    }
+
+    private String translateWord(Locale inLocale, Locale outLocale, String word) {
+        return dictionary.getProperty(inLocale.getLanguage() + "-" + outLocale.getLanguage() + "." + word, word);
     }
 
     List<Record> getData() {

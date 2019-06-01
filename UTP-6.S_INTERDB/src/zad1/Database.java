@@ -35,6 +35,8 @@ class Database {
         }
     }
 
+
     void showGui() {
+        new MainWindow(travelData.getData());
     }
 }
